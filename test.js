@@ -109,7 +109,7 @@ describe('Slite 1986 Test', function () {
       await runCommand(`insert:${docId}:5: World!`)
 
       const respmd = await runCommand(`get:${docId}:md`)
-      expect(respmd).toEqual('*Hello* World!\n\r\n')
+      expect(respmd).toEqual('*Hello* World!\r\n')
 
       const resptxt = await runCommand(`get:${docId}:txt`)
       expect(resptxt).toEqual('Hello World!\r\n')
@@ -126,4 +126,3 @@ describe('Slite 1986 Test', function () {
     })
   })
 })
-
