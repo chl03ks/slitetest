@@ -9,7 +9,7 @@
   "scripts": {
     "dev": "nodemon  src/index.js",
     "start": "node src/index.js",
-    "test": "jest ./test.js --watch"
+    "test": "jest ./test.js"
   },
   "keywords": [
     "Slite",
