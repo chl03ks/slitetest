@@ -5,10 +5,35 @@ const commands = {
   create: argumets => {
     const [documentName] = argumets;
     if (documentName) {
-      documents[documentName] = "";
-      return "200";
+      const name = documentName.replace(/\n$/, "");
+      documents[name] = "";
+      return 200;
     }
-    return "404";
+    return 404;
+  },
+  insert: argumets => {
+    const [documentName, position, input] = argumets;
+
+    if (documentName in documents) {
+      let whereToInsert = position;
+      let inputToinsert = input;
+      const document = documents[documentName];
+
+      if (isNaN(position)) {
+        inputToinsert = position.replace(/\n$/, "");
+        documents[documentName] = document.concat(inputToinsert);
+        return 200;
+      }
+
+      documents[documentName] = [
+        document.slice(0, whereToInsert),
+        inputToinsert.replace(/\n$/, ""),
+        document.slice(whereToInsert)
+      ].join("");
+
+      return 200;
+    }
+    return 404;
   },
   help: () => `
  __        
@@ -39,6 +64,5 @@ var server = net.createServer(socket => {
     );
   });
 });
-
 
 server.listen(1337, "127.0.0.1");
