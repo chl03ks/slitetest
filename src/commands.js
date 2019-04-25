@@ -1,5 +1,18 @@
 const documents = {};
 
+function formatText(id, style) {
+  return documents[id][style].reduce((total, currentValue) => {
+    const values = currentValue.map((element, index) => {
+      if (index === currentValue.length - 1) {
+        if (style === "bold") element += 2;
+        else element++;
+      }
+      total = [total.slice(0, element), style === 'bold' ? '**': '*', total.slice(element)].join("");
+      return total;
+    });
+    return values[values.length - 1];
+  }, documents[id].content);
+}
 module.exports = {
   create: argumets => {
     const [documentName] = argumets;
@@ -43,32 +56,11 @@ module.exports = {
     if (id in documents) {
       if (format === "md") {
         if (documents[id].bold) {
-          return documents[id].bold.reduce((total, currentValue) => {
-            const values = currentValue.map((element, index) => {
-              if (index === currentValue.length - 1) element += 2;
-              total = [
-                total.slice(0, element),
-                "**",
-                total.slice(element)
-              ].join("");
-              return total;
-            });
-            return values[values.length - 1];
-          }, documents[id].content);
+          return formatText(id, "bold");
+        } else if (documents[id].italic) {
+          return formatText(id, "italic");
         }
-        if (documents[id].italic) {
-          return documents[id].italic.reduce((total, currentValue) => {
-            const values = currentValue.map((element, index) => {
-              if (index === currentValue.length - 1) element += 1;
-              total = [total.slice(0, element), "*", total.slice(element)].join(
-                ""
-              );
-              return total;
-            });
-            return values[values.length - 1];
-          }, documents[id].content);
-        }
-        return documents[id].content;q
+        return documents[id].content;
       }
       return documents[id].content;
     }
