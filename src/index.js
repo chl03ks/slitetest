@@ -35,6 +35,23 @@ const commands = {
     }
     return 404;
   },
+  get: argumets => {
+    const [documentName, format] = argumets;
+    const nameWithOutBreakLines = documentName.replace(/\n$/, "")
+    if (nameWithOutBreakLines in documents) {
+      return documents[documentName];
+    }
+    return 404;
+  },
+  delete: argumets => {
+    const [documentName] = argumets;
+    const nameWithOutBreakLines = documentName.replace(/\n$/, "")
+    if (nameWithOutBreakLines in documents) {
+      delete documents[nameWithOutBreakLines];
+      return 200;
+    }
+    return 404;
+  },
   help: () => `
  __        
  (_ |o_|_ _ 
