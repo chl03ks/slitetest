@@ -67,7 +67,7 @@ module.exports = {
     return 404;
   },
   delete: argumets => {
-    const [documentName] = argumets;
+    const [documentName = ''] = argumets;
     const id = documentName.replace(/\n$/, "");
     if (id in documents) {
       delete documents[id];
